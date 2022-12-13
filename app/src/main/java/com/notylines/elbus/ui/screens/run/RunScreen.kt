@@ -1,6 +1,5 @@
 package com.notylines.elbus.ui.screens.run
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Button
@@ -24,9 +23,11 @@ fun RunScreen(navController: NavController) {
         ) {
             Text(text = AppScreens.RunScreen.name)
 
-            Button(onClick = { navController.navigate(AppScreens.ResultScreen.name){
-                popUpTo(AppScreens.SetupScreen.name)
-            } }) {
+            Button(onClick = {
+                navController.navigate(AppScreens.ResultScreen.name) {
+                    popUpTo(AppScreens.SetupScreen.name)
+                }
+            }) {
 
                 Text(text = "to result")
             }
