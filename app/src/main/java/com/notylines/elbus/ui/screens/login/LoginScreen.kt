@@ -147,8 +147,6 @@ fun CustomTextField(
     textFieldValue: String,
     onTextFieldValueChange: (String) -> Unit
 ) {
-    val email = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
 
     OutlinedTextField(
         value = textFieldValue,
