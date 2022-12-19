@@ -4,20 +4,20 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.notylines.elbus.R
+import com.notylines.elbus.components.CustomTextField
 import com.notylines.elbus.ui.navigation.AppScreens
 
 @Composable
@@ -34,8 +34,7 @@ fun LoginScreen(navController: NavController) {
         ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .border(width = 2.dp, color = Color.Cyan),
+                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -74,30 +73,30 @@ fun LoginScreen(navController: NavController) {
                 verticalArrangement = Arrangement.Top
             ) {
 
-                CustomTextField(textFieldValue = emailTextFieldValue,
-                    onTextFieldValueChange = {
-                        emailTextFieldValue = it
-                    })
+                CustomTextField(
+                    textFieldValue = emailTextFieldValue,
+                    onTextFieldValueChange = { emailTextFieldValue = it }
+                )
 
                 Spacer(modifier = Modifier.height(15.dp))
 
                 CustomTextField(
+                    textFieldValue = passwordTextFieldValue,
+                    onTextFieldValueChange = { passwordTextFieldValue = it },
                     label = "contrasena",
                     placeHolder = "*********",
-                    isPassword = true,
-                    textFieldValue = passwordTextFieldValue,
-                    onTextFieldValueChange = { passwordTextFieldValue = it }
+                    keyboardType = 1,
                 )
 
                 if (!isRegistered) {
                     Spacer(modifier = Modifier.height(15.dp))
 
                     CustomTextField(
+                        textFieldValue = repeatPasswordTextFieldValue,
+                        onTextFieldValueChange = { repeatPasswordTextFieldValue = it },
                         label = "repite la contrasena",
                         placeHolder = "*********",
-                        isPassword = true,
-                        textFieldValue = repeatPasswordTextFieldValue,
-                        onTextFieldValueChange = { repeatPasswordTextFieldValue = it }
+                        keyboardType = 1,
                     )
                 }
             }
@@ -139,26 +138,3 @@ fun LoginScreen(navController: NavController) {
 }
 
 
-@Composable
-fun CustomTextField(
-    label: String = "email",
-    placeHolder: String = "ejemplo@ejemplo.com",
-    isPassword: Boolean = false,
-    textFieldValue: String,
-    onTextFieldValueChange: (String) -> Unit
-) {
-
-    OutlinedTextField(
-        value = textFieldValue,
-        onValueChange = onTextFieldValueChange,
-        keyboardOptions =
-        if (isPassword) KeyboardOptions(keyboardType = KeyboardType.Password)
-        else KeyboardOptions(keyboardType = KeyboardType.Email),
-        label = { Text(text = label) },
-        placeholder = { Text(text = placeHolder) },
-        modifier = Modifier.height(60.dp),
-        visualTransformation =
-        if (isPassword) PasswordVisualTransformation()
-        else VisualTransformation.None
-    )
-}

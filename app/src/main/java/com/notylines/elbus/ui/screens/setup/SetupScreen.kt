@@ -1,18 +1,18 @@
 package com.notylines.elbus.ui.screens.setup
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import android.util.Log
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.PlayArrow
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.notylines.elbus.components.CustomTextField
 import com.notylines.elbus.ui.navigation.AppScreens
 
 
@@ -20,26 +20,62 @@ import com.notylines.elbus.ui.navigation.AppScreens
 fun SetupScreen(navController: NavController) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        floatingActionButton = { CustomFAB() }
+        floatingActionButton = { CustomFAB(navController) }
     ) {
+
+        var busCompany by rememberSaveable { mutableStateOf("") }
+        var busId by rememberSaveable { mutableStateOf("") }
+
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = AppScreens.SetupScreen.name)
+            Text("Que bus vas a coger?")
 
-            Button(onClick = { navController.navigate(AppScreens.RunScreen.name) }) {
-                Text(text = "to run")
+            Text(text = "Compania")
+
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+
+                var isExpanded by remember { mutableStateOf(false) }
+                Column {
+
+                    CustomTextField(
+                        textFieldValue = busCompany,
+                        onTextFieldValueChange = { busCompany = it },
+                        label = "Compania de Bus",
+                        placeHolder = "Serviagosto",
+                        keyboardType = 3,
+                        hasTrailingIcon = true,
+                        openDropDownMenu = { isExpanded = true },
+                    )
+                    DropdownMenu(expanded = isExpanded, onDismissRequest = {
+                        isExpanded = false
+                    }) {
+                        DropdownMenuItem(onClick = { Log.d("DDMenu", "menu item 1 clicked") }) {
+                            Text(text = "item 1")
+                        }
+                        DropdownMenuItem(onClick = { Log.d("DDMenu", "menu item 2 clicked") }) {
+                            Text(text = "item 2")
+                        }
+                    }
+                }
             }
+            Text(text = "Numero de bus")
+            CustomTextField(
+                textFieldValue = busId,
+                onTextFieldValueChange = { busId = it },
+                label = "Numero de Bus",
+                placeHolder = "0000",
+                keyboardType = 2,
+            )
         }
     }
 
 }
 
-@Preview(showBackground = true)
 @Composable
-fun CustomFAB() {
-    FloatingActionButton(onClick = { /*TODO start run*/ }) {
+fun CustomFAB(navController: NavController) {
+    FloatingActionButton(onClick = { /*TODO start run*/ navController.navigate(AppScreens.RunScreen.name) }) {
         Icon(
             imageVector = Icons.Rounded.PlayArrow,
             contentDescription = "start run button",
