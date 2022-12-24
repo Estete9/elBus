@@ -24,7 +24,7 @@ fun CustomTextField(
     textFieldValue: String,
     onTextFieldValueChange: (String) -> Unit
 ) {
-val keyboardTypeOptions = listOf("email", "password", "number", "text")
+    val keyboardTypeOptions = listOf("email", "password", "number", "text")
 
     OutlinedTextField(
         value = textFieldValue,

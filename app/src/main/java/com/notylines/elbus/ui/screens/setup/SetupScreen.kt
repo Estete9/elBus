@@ -27,18 +27,26 @@ fun SetupScreen(navController: NavController) {
         var busId by rememberSaveable { mutableStateOf("") }
 
         Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 200.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
         ) {
-            Text("Que bus vas a coger?")
-
-            Text(text = "Compania")
-
-            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+            Text(
+                text = "Que bus vas a tomar?",
+                modifier = Modifier,
+                style = MaterialTheme.typography.h5
+            )
+            Spacer(modifier = Modifier.weight(0.2f))
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+            ) {
 
                 var isExpanded by remember { mutableStateOf(false) }
                 Column {
-
+                    Text(text = "Compania", style = MaterialTheme.typography.subtitle1)
                     CustomTextField(
                         textFieldValue = busCompany,
                         onTextFieldValueChange = { busCompany = it },
@@ -59,15 +67,17 @@ fun SetupScreen(navController: NavController) {
                         }
                     }
                 }
+                Spacer(modifier = Modifier.height(30.dp))
+                Text(text = "Numero de bus")
+                CustomTextField(
+                    textFieldValue = busId,
+                    onTextFieldValueChange = { busId = it },
+                    label = "Numero de Bus",
+                    placeHolder = "0000",
+                    keyboardType = 2,
+                )
             }
-            Text(text = "Numero de bus")
-            CustomTextField(
-                textFieldValue = busId,
-                onTextFieldValueChange = { busId = it },
-                label = "Numero de Bus",
-                placeHolder = "0000",
-                keyboardType = 2,
-            )
+            Spacer(modifier = Modifier.weight(1f))
         }
     }
 
