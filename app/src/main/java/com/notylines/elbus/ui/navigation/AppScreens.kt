@@ -4,6 +4,7 @@ enum class AppScreens {
     LoginScreen,
     SetupScreen,
     ResultScreen,
-    RunScreen;
+    RunScreen,
+    SavedResultsScreen;
 
 }

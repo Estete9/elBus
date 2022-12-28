@@ -75,7 +75,7 @@ fun RunScreen(navController: NavController) {
 
                         Text(
                             text = "00:00:00:00",
-                            fontSize = 50.sp
+                            fontSize = 45.sp
                         )
                         Row(
                             modifier = Modifier.fillMaxWidth(),

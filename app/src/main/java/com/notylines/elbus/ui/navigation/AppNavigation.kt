@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.notylines.elbus.ui.screens.SavedResultsScreen.SavedResultsScreen
 import com.notylines.elbus.ui.screens.login.LoginScreen
 import com.notylines.elbus.ui.screens.result.ResultScreen
 import com.notylines.elbus.ui.screens.run.RunScreen
@@ -14,7 +15,7 @@ fun AppNavigation() {
 
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = AppScreens.LoginScreen.name) {
+    NavHost(navController = navController, startDestination = AppScreens.SavedResultsScreen.name) {
         composable(route = AppScreens.LoginScreen.name) {
             LoginScreen(navController = navController)
         }
@@ -24,9 +25,11 @@ fun AppNavigation() {
         composable(route = AppScreens.RunScreen.name) {
             RunScreen(navController = navController)
         }
-//TODO check if this backstack works
         composable(route = AppScreens.ResultScreen.name) {
             ResultScreen(navController = navController)
+        }
+        composable(route = AppScreens.SavedResultsScreen.name) {
+            SavedResultsScreen(navController = navController)
         }
     }
 }
