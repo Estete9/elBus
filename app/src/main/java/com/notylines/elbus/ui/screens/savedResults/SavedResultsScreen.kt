@@ -1,4 +1,4 @@
-package com.notylines.elbus.ui.screens.SavedResultsScreen
+package com.notylines.elbus.ui.screens.savedResults
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn

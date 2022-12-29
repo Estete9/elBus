@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.notylines.elbus.ui.screens.SavedResultsScreen.SavedResultsScreen
+import com.notylines.elbus.ui.screens.savedResults.SavedResultsScreen
 import com.notylines.elbus.ui.screens.login.LoginScreen
 import com.notylines.elbus.ui.screens.result.ResultScreen
 import com.notylines.elbus.ui.screens.run.RunScreen
