@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -46,13 +47,13 @@ fun ResultScreen(navController: NavController) {
                 painter = painterResource(id = R.drawable.cropped_map),
                 contentDescription = "Result Map",
                 modifier = Modifier
-                    .height(300.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                alignment = Alignment.TopCenter
             )
 
             Column(
                 modifier = Modifier
-                    .padding(horizontal = 4.dp)
+                    .padding(horizontal = 6.dp)
                     .weight(2f),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
 
@@ -119,8 +120,8 @@ fun ResultScreen(navController: NavController) {
 
                     LazyColumn(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(10.dp)
+                            .fillMaxWidth(),
+                        contentPadding = PaddingValues(end = 10.dp, start = 10.dp, top = 5.dp)
                     ) {
                         items(excesosDeVelocidad) { exceso ->
                             Text(text = exceso)
@@ -129,23 +130,27 @@ fun ResultScreen(navController: NavController) {
 
                 }
             }
+
+
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 35.dp, vertical = 5.dp),
                 horizontalArrangement = Arrangement.Center,
 
-            ) {
-
-                Button(onClick = { /*TODO*/ }) {
+                ) {
+                Button(onClick = { /*TODO*/ }, modifier = Modifier.width(100.dp)) {
                     Text(text = "Guardar")
                 }
                 Spacer(modifier = Modifier.width(30.dp))
-                OutlinedButton(onClick = { /*TODO*/ }) {
+                OutlinedButton(onClick = { /*TODO*/ }, modifier = Modifier.width(100.dp)) {
                     Text(text = "Borrar")
                 }
             }
 
 
         }
+
     }
 
 }
