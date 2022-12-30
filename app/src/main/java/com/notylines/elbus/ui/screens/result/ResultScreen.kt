@@ -4,12 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
-import androidx.compose.material.Divider
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -50,79 +46,104 @@ fun ResultScreen(navController: NavController) {
                 painter = painterResource(id = R.drawable.cropped_map),
                 contentDescription = "Result Map",
                 modifier = Modifier
-                    .weight(1.2f)
+                    .height(300.dp)
+                    .fillMaxWidth()
             )
 
             Column(
                 modifier = Modifier
                     .padding(horizontal = 4.dp)
                     .weight(2f),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
 
                 ) {
 
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(4.dp))
 
                 Column(modifier = Modifier.padding(horizontal = 16.dp)) {
 
-                    Text(text = "Duracion")
-                    Text(text = "00:00:00")
+                    Text(text = "Duracion", style = MaterialTheme.typography.caption)
+                    Text(
+                        text = "00:00:00",
+                        modifier = Modifier.padding(end = 10.dp, start = 10.dp, top = 5.dp)
+                    )
                 }
 
                 Divider()
 
                 Column(modifier = Modifier.padding(horizontal = 16.dp)) {
 
-                    Text(text = "Velocidad Maxima")
-                    Text(text = "0 Km/H")
+                    Text(text = "Velocidad Maxima", style = MaterialTheme.typography.caption)
+                    Text(
+                        text = "0 Km/H",
+                        modifier = Modifier.padding(end = 10.dp, start = 10.dp, top = 5.dp)
+                    )
                 }
 
                 Divider()
 
                 Column(modifier = Modifier.padding(horizontal = 16.dp)) {
 
-                    Text(text = "Duracion de intervalo en Velocidad Maxima")
-                    Text(text = "00:00:00")
+                    Text(
+                        text = "Duracion de intervalo en Velocidad Maxima",
+                        style = MaterialTheme.typography.caption
+                    )
+                    Text(
+                        text = "00:00:00",
+                        modifier = Modifier.padding(end = 10.dp, start = 10.dp, top = 5.dp)
+                    )
                 }
 
                 Divider()
 
                 Column(modifier = Modifier.padding(horizontal = 16.dp)) {
 
-                    Text(text = "Numero de Excesos de Velocidad (mas de 5s)")
-                    Text(text = "17")
+                    Text(
+                        text = "Numero de Excesos de Velocidad (mas de 5s)",
+                        style = MaterialTheme.typography.caption
+                    )
+                    Text(
+                        text = "17",
+                        modifier = Modifier.padding(end = 10.dp, start = 10.dp, top = 5.dp)
+                    )
                 }
 
                 Divider()
-                Box() {
 
-                    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                Column(modifier = Modifier.padding(horizontal = 16.dp)) {
 
-                        Text(text = "Lista de veces que hubo exceso de velocidad")
+                    Text(
+                        text = "Lista de veces que hubo exceso de velocidad",
+                        style = MaterialTheme.typography.caption
+                    )
 
-                        LazyColumn(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(10.dp)
-                        ) {
-                            items(excesosDeVelocidad) { exceso ->
-                                Text(text = exceso)
-                            }
-                        }
-
-                    }
-                    Box(
-                        modifier = Modifier.fillMaxSize().padding(12.dp),
-                        contentAlignment = Alignment.BottomEnd
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(10.dp)
                     ) {
-                        Button(onClick = { /*TODO*/ }) {
-                            Text(text = "Continuar")
+                        items(excesosDeVelocidad) { exceso ->
+                            Text(text = exceso)
                         }
                     }
+
                 }
-
-
             }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+
+            ) {
+
+                Button(onClick = { /*TODO*/ }) {
+                    Text(text = "Guardar")
+                }
+                Spacer(modifier = Modifier.width(30.dp))
+                OutlinedButton(onClick = { /*TODO*/ }) {
+                    Text(text = "Borrar")
+                }
+            }
+
 
         }
     }
