@@ -82,7 +82,7 @@ fun SavedRunCard() {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(12.dp)
+            .padding(4.dp)
             .height(140.dp),
         elevation = 5.dp
 
