@@ -49,7 +49,7 @@ fun ResultScreen(navController: NavController) {
                     .height(300.dp)
                     .fillMaxWidth()
             )
-
+// here is lazyColumn instead of column
             Column(
                 modifier = Modifier
                     .padding(horizontal = 4.dp)
@@ -116,7 +116,7 @@ fun ResultScreen(navController: NavController) {
                         text = "Lista de veces que hubo exceso de velocidad",
                         style = MaterialTheme.typography.caption
                     )
-
+// here column instead of lazyColumn
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -133,17 +133,17 @@ fun ResultScreen(navController: NavController) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
 
-            ) {
+                ) {
 
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = { /*TODO*/ }, modifier = Modifier.width(130.dp)) {
                     Text(text = "Guardar")
                 }
                 Spacer(modifier = Modifier.width(30.dp))
-                OutlinedButton(onClick = { /*TODO*/ }) {
+                OutlinedButton(onClick = { /*TODO*/ }, modifier = Modifier.width(130.dp)) {
                     Text(text = "Borrar")
                 }
             }
-
+            Spacer(modifier = Modifier.width(30.dp))
 
         }
     }
