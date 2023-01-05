@@ -68,7 +68,7 @@ fun RunScreen(navController: NavController) {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(top = 20.dp, bottom = 20.dp),
+                            .padding(top = 25.dp, bottom = 20.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.SpaceBetween
                     ) {
@@ -81,13 +81,13 @@ fun RunScreen(navController: NavController) {
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
-
-                            OutlinedButton(onClick = { /*TODO*/ }) {
-                                Text(text = "Detener")
-                            }
                             Button(onClick = { /*TODO*/ }) {
                                 Text(text = "Terminar")
                             }
+                            OutlinedButton(onClick = { /*TODO*/ }) {
+                                Text(text = "Detener")
+                            }
+
                         }
                     }
                 }

@@ -7,10 +7,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -46,13 +51,46 @@ fun ResultScreen(navController: NavController) {
         Column(
             modifier = Modifier.fillMaxSize(),
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.cropped_map),
-                contentDescription = "Result Map",
+
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(0.67f)
-            )
+            ) {
+
+                val localDensity = LocalDensity.current
+                val imageSize = remember { mutableStateOf(0f) }
+
+                Image(
+                    painter = painterResource(id = R.drawable.cropped_map),
+                    contentDescription = "Result Map",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .onGloballyPositioned { coordinates ->
+                            imageSize.value = coordinates.size.height.toFloat()
+
+                        }
+
+                )
+
+                val gradient = Brush.verticalGradient(
+                    colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.94f)),
+                    startY = imageSize.value / 3,
+                    endY = imageSize.value
+                )
+
+                Box(
+                    modifier = Modifier
+                        .matchParentSize()
+                        .align(alignment = Alignment.BottomCenter)
+                        .background(gradient)
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    contentAlignment = Alignment.BottomEnd
+                ) {
+                    Text(text = "5:30 pm. 26 de Mayo, 2022", color = Color.White)
+                }
+            }
+
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -60,7 +98,6 @@ fun ResultScreen(navController: NavController) {
                     .weight(1f)
 
             ) {
-//                item { Spacer(modifier = Modifier.height(16.dp)) }
                 item {
                     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
 
