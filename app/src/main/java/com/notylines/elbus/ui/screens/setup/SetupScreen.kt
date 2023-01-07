@@ -1,6 +1,9 @@
 package com.notylines.elbus.ui.screens.setup
 
+import android.Manifest
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -10,10 +13,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.notylines.elbus.components.CustomTextField
 import com.notylines.elbus.ui.navigation.AppScreens
+import com.notylines.elbus.utils.checkPermissions
 
 
 @Composable
@@ -85,7 +90,21 @@ fun SetupScreen(navController: NavController) {
 
 @Composable
 fun CustomFAB(navController: NavController) {
-    FloatingActionButton(onClick = { /*TODO start run*/ navController.navigate(AppScreens.RunScreen.name) }) {
+    val context = LocalContext.current
+    val permissionRequestResult = remember { mutableStateOf(false) }
+    val permissionLauncher =
+        rememberLauncherForActivityResult(contract = RequestPermission()) {
+            permissionRequestResult.value = it
+        }
+    FloatingActionButton(onClick = {
+//        updates the permission result so the launched effect cant navigate to next screen
+        checkPermissions(
+            context,
+            onPermissionUpdate = { permissionRequestResult.value = it },
+            onPermissionRequest = { permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION) }
+        )
+
+    }) {
         Icon(
             imageVector = Icons.Rounded.PlayArrow,
             contentDescription = "start run button",
@@ -93,5 +112,9 @@ fun CustomFAB(navController: NavController) {
                 .size(35.dp),
             tint = Color.White
         )
+    }
+//    this checks for permission changes and navigates to the run screen
+    LaunchedEffect(key1 = permissionRequestResult.value) {
+        if (permissionRequestResult.value) navController.navigate(AppScreens.RunScreen.name)
     }
 }
