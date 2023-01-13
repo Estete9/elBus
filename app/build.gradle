@@ -67,6 +67,8 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
 
+//  location
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
 //    google maps
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
 //    google maps compose

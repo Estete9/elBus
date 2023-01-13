@@ -1,5 +1,7 @@
 package com.notylines.elbus.ui.screens.run
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -7,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -16,12 +19,17 @@ import com.google.maps.android.compose.Circle
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.notylines.elbus.services.LocationService
 
 @Composable
 fun RunScreen(navController: NavController) {
     Scaffold(
         modifier = Modifier.fillMaxSize()
     ) {
+
+        val context = LocalContext.current
+
+        sendCommandToService(context, LocationService.SERVICE_START)
 
         val casa = LatLng(-0.1964991, -78.5082015)
         val cameraPositionState = rememberCameraPositionState {
@@ -84,8 +92,13 @@ fun RunScreen(navController: NavController) {
                             Button(onClick = { /*TODO*/ }) {
                                 Text(text = "Terminar")
                             }
-                            OutlinedButton(onClick = { /*TODO*/ }) {
-                                Text(text = "Detener")
+                            OutlinedButton(onClick = {
+                                sendCommandToService(
+                                    context,
+                                    LocationService.SERVICE_STOP
+                                )
+                            }) {
+                                Text(text = "Cancelar")
                             }
 
                         }
@@ -96,3 +109,10 @@ fun RunScreen(navController: NavController) {
     }
 
 }
+
+
+private fun sendCommandToService(context: Context, action: String) =
+    Intent(context, LocationService::class.java).also {
+        it.action = action
+        context.startService(it)
+    }
