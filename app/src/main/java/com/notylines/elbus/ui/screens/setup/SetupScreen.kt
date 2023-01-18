@@ -1,6 +1,8 @@
 package com.notylines.elbus.ui.screens.setup
 
 import android.Manifest
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
@@ -17,6 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.notylines.elbus.components.CustomTextField
+import com.notylines.elbus.services.LocationService
 import com.notylines.elbus.ui.navigation.AppScreens
 import com.notylines.elbus.utils.checkPermissions
 
@@ -30,6 +33,7 @@ fun SetupScreen(navController: NavController) {
 
         var busCompany by rememberSaveable { mutableStateOf("") }
         var busId by rememberSaveable { mutableStateOf("") }
+
 
         Column(
             modifier = Modifier
@@ -115,6 +119,16 @@ fun CustomFAB(navController: NavController) {
     }
 //    this checks for permission changes and navigates to the run screen
     LaunchedEffect(key1 = permissionRequestResult.value) {
-        if (permissionRequestResult.value) navController.navigate(AppScreens.RunScreen.name)
+        if (permissionRequestResult.value) {
+            sendCommandToService(context, LocationService.SERVICE_START)
+            navController.navigate(AppScreens.RunScreen.name)
+        }
     }
 }
+
+
+private fun sendCommandToService(context: Context, action: String) =
+    Intent(context, LocationService::class.java).also {
+        it.action = action
+        context.startService(it)
+    }
