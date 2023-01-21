@@ -7,23 +7,25 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Looper
 import android.provider.Settings
-import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.*
-import com.google.android.gms.maps.model.LatLng
 import com.notylines.elbus.utils.hasLocationPermissions
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.launch
 
 class LocationClient(
     private val context: Context,
     private val locationClient: FusedLocationProviderClient,
-    val addPathPoint: (Location) -> Unit
 ) {
+
 
     @SuppressLint("MissingPermission")
     fun getLocationUpdates(): Flow<Location> {
         return callbackFlow {
+
             if (!context.hasLocationPermissions()) {
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 context.startActivity(intent)
@@ -48,9 +50,7 @@ class LocationClient(
                 override fun onLocationResult(result: LocationResult) {
                     super.onLocationResult(result)
                     result.locations.lastOrNull()?.let { location ->
-//    TODO change this so we register the location somewhere and we use it to move camera to current position
-//                        launch { send(location) } (this might be necessary because of coroutine)
-                        addPathPoint(location)
+                        launch { send(location) }
                     }
                 }
             }
@@ -73,13 +73,5 @@ class LocationClient(
         return !isGpsEnabled && !isNetworkEnabled
 
     }
-
-//    private fun addPathPoint(location: Location) {
-//        val pos = LatLng(location.latitude, location.longitude)
-//        pathPoints.value?.apply {
-//            last().add(pos)
-//            pathPoints.postValue(this)
-//        }
-//    }
 
 }
