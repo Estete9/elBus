@@ -1,4 +1,7 @@
 package com.notylines.elbus
 
-class LocationApp {
+import android.app.Application
+
+class LocationApp: Application() {
+
 }
