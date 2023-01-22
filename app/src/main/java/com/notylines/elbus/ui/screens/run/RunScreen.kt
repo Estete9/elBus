@@ -26,14 +26,6 @@ fun RunScreen(navController: NavController) {
         val isFirstUpdate = remember { mutableStateOf(true) }
         Log.d("RUNSCREEN", "isFirstUpdate is ${isFirstUpdate.value}")
 
-        val currentLocation = LocationService.pathPoints.collectAsState()
-
-        val cameraPositionState = rememberCameraPositionState {
-            position = CameraPosition.fromLatLngZoom(currentLocation.value, 15f)
-        }
-        LaunchedEffect(key1 = cameraPositionState.isMoving) {
-
-        }
 
         Box(modifier = Modifier.fillMaxSize()) {
 
@@ -103,7 +95,7 @@ private fun GoogleMapView(isFirstUpdate: Boolean, updateFirstUpdate: (Boolean) -
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(
             LatLng(location.latitude, location.longitude),
-            17f
+            18f
         )
     }
     Log.d("GOOGLEVIEW", "location in map compose outside of launched effect is $location")
@@ -128,13 +120,6 @@ private fun GoogleMapView(isFirstUpdate: Boolean, updateFirstUpdate: (Boolean) -
         cameraPositionState = cameraPositionState,
         uiSettings = mapUiSettings,
         properties = mapProperties
+    )
 
-    ) {
-        Circle(
-            center = location,
-            fillColor = MaterialTheme.colors.secondary,
-            radius = 2.0,
-            strokeColor = Color.Transparent
-        )
-    }
 }
