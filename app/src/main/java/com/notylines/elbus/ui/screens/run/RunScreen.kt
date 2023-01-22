@@ -14,8 +14,10 @@ import androidx.navigation.NavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.compose.*
 import com.notylines.elbus.services.LocationService
+import com.notylines.elbus.utils.GoogleMapView
 
 @Composable
 fun RunScreen(navController: NavController) {
@@ -32,10 +34,9 @@ fun RunScreen(navController: NavController) {
             Box(
                 modifier = Modifier, contentAlignment = Alignment.Center
             ) {
-
                 GoogleMapView(
                     isFirstUpdate = isFirstUpdate.value,
-                    updateFirstUpdate = { isFirstUpdate.value = it })
+                    updateFirstLocation = { isFirstUpdate.value = it })
             }
             Box(
                 modifier = Modifier
@@ -76,6 +77,7 @@ fun RunScreen(navController: NavController) {
 //                                    context,
 //                                    LocationService.SERVICE_STOP
 //                                )
+
                             }) {
                                 Text(text = "Cancelar")
                             }
@@ -89,36 +91,3 @@ fun RunScreen(navController: NavController) {
 
 }
 
-@Composable
-private fun GoogleMapView(isFirstUpdate: Boolean, updateFirstUpdate: (Boolean) -> Unit) {
-    val location by LocationService.pathPoints.collectAsState()
-    val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(
-            LatLng(location.latitude, location.longitude),
-            18f
-        )
-    }
-    Log.d("GOOGLEVIEW", "location in map compose outside of launched effect is $location")
-    LaunchedEffect(key1 = location) {
-        Log.d("GOOGLEVIEW", "location in map compose inside of launched effect is $location")
-
-        val update = CameraUpdateFactory.newLatLng(LatLng(location.latitude, location.longitude))
-
-        if (isFirstUpdate) {
-            cameraPositionState.move(update)
-            updateFirstUpdate(false)
-        } else {
-            cameraPositionState.animate(update, 500)
-        }
-
-    }
-    val mapProperties = MapProperties(isMyLocationEnabled = true)
-    val mapUiSettings = MapUiSettings(zoomControlsEnabled = false)
-
-    GoogleMap(
-        modifier = Modifier.fillMaxWidth(),
-        cameraPositionState = cameraPositionState,
-        uiSettings = mapUiSettings,
-        properties = mapProperties
-    )
-}

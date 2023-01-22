@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -29,7 +30,7 @@ class LocationService() : Service() {
         const val SERVICE_START = "SERVICE_START"
         const val SERVICE_STOP = "SERVICE_STOP"
 //        TODO find a way to remove this starting pathPoint
-        val pathPoints = MutableStateFlow(LatLng(-0.250789, -79.175610))
+        val currentPosition = MutableStateFlow<LatLng?>(null)
         val isTracking = mutableStateOf(true)
 
     }
@@ -70,9 +71,9 @@ class LocationService() : Service() {
             .onEach { location ->
 // TODO register the location information
                 val pos = LatLng(location.latitude, location.longitude)
-                pathPoints.value = pos
+                currentPosition.value = pos
                 Log.d("LOCATIONSERVICESTART", "path added $location")
-                Log.d("LOCATIONSERVICESTART", "path list ${pathPoints}")
+                Log.d("LOCATIONSERVICESTART", "path list ${currentPosition}")
             }
             .launchIn(serviceScope)
     }
@@ -80,6 +81,7 @@ class LocationService() : Service() {
     private fun stop() {
         stopSelf()
         isTracking.value = false
+
     }
 
     @SuppressLint("MissingPermission")

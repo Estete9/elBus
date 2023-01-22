@@ -40,10 +40,10 @@ class LocationClient(
                 throw Exception("GPS is disabled")
             }
 
-            val request = LocationRequest.Builder(5000L)
+            val request = LocationRequest.Builder(1000L)
                 .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
                 .setWaitForAccurateLocation(false)
-                .setMinUpdateIntervalMillis(2000L)
+                .setMinUpdateIntervalMillis(500L)
                 .build()
 
             val locationCallback = object : LocationCallback() {
