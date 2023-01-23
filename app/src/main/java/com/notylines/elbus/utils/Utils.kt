@@ -54,8 +54,10 @@ fun Context.hasLocationPermissions(): Boolean {
 
 @Composable
 fun GoogleMapView(isFirstUpdate: Boolean, updateFirstLocation: (Boolean) -> Unit) {
+
     val lastPosition by LocationService.currentPosition.collectAsState()
     val locations = remember { mutableListOf<LatLng>() }
+
     Log.d("GOOGLEVIEW", "outside launched effect locations: $locations")
     val cameraPositionState = rememberCameraPositionState {
         if (locations.isNotEmpty()) {

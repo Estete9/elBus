@@ -127,8 +127,15 @@ fun CustomFAB(navController: NavController) {
 }
 
 
-private fun sendCommandToService(context: Context, action: String) =
+fun sendCommandToService(context: Context, action: String) =
     Intent(context, LocationService::class.java).also {
         it.action = action
-        context.startService(it)
+        when (action) {
+            LocationService.SERVICE_STOP -> {
+                context.stopService(it)
+            }
+            LocationService.SERVICE_START -> {
+                context.startService(it)
+            }
+        }
     }
