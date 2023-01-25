@@ -121,6 +121,7 @@ fun CustomFAB(navController: NavController) {
     LaunchedEffect(key1 = permissionRequestResult.value) {
         if (permissionRequestResult.value) {
             sendCommandToService(context, LocationService.SERVICE_START)
+            LocationService.finishedRun.value = false
             navController.navigate(AppScreens.RunScreen.name)
         }
     }

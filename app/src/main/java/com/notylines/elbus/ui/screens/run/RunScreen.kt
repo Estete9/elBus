@@ -1,23 +1,18 @@
 package com.notylines.elbus.ui.screens.run
 
-import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.maps.android.compose.*
 import com.notylines.elbus.services.LocationService
 import com.notylines.elbus.ui.screens.setup.sendCommandToService
 import com.notylines.elbus.utils.GoogleMapView
@@ -70,17 +65,25 @@ fun RunScreen(navController: NavController) {
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
-                            Button(onClick = { /*TODO*/ }) {
-                                Text(text = "Terminar")
-                            }
-                            OutlinedButton(onClick = {
-//                                TODO find a way to hoist the send command to service
-//                                 fun and use this button to stop the service
+//                            user finishes route and wants to save the run
+                            Button(onClick = {
+//                          TODO after they finish the run, zoom out to show all the polyline
                                 sendCommandToService(
                                     context,
                                     LocationService.SERVICE_STOP
                                 )
-
+                                LocationService.finishedRun.value = true
+                                Log.d("RUNSCREEN", "RunScreen: finished run")
+                            }) {
+                                Text(text = "Terminar")
+                            }
+                            OutlinedButton(onClick = {
+//                            user cancels the run
+                                sendCommandToService(
+                                    context,
+                                    LocationService.SERVICE_STOP
+                                )
+//                          TODO think of what happens after they cancel the run
                             }) {
                                 Text(text = "Cancelar")
                             }

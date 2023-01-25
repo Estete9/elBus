@@ -3,15 +3,11 @@ package com.notylines.elbus.services
 import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Intent
-import android.location.Location
 import android.os.IBinder
 import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -29,9 +25,11 @@ class LocationService() : Service() {
     companion object {
         const val SERVICE_START = "SERVICE_START"
         const val SERVICE_STOP = "SERVICE_STOP"
-//        TODO find a way to remove this starting pathPoint
+
+        //        TODO find a way to remove this starting pathPoint
         val currentPosition = MutableStateFlow<LatLng?>(null)
         val isTracking = mutableStateOf(true)
+        val finishedRun = mutableStateOf(false)
 
     }
 
