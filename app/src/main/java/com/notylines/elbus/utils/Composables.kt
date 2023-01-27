@@ -5,7 +5,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.RoundCap
 import com.google.maps.android.compose.*
 import com.notylines.elbus.services.LocationService
 
@@ -15,6 +18,7 @@ fun GoogleMapView(isFirstUpdate: Boolean, updateFirstLocation: (Boolean) -> Unit
 
     val lastPosition by LocationService.currentPosition.collectAsState()
     val locations = remember { mutableListOf<LatLng>() }
+
 
     val cameraPositionState = rememberCameraPositionState {
         if (locations.isNotEmpty()) {
@@ -28,7 +32,6 @@ fun GoogleMapView(isFirstUpdate: Boolean, updateFirstLocation: (Boolean) -> Unit
 //    a cameraUpdateFactory so the camera can zoom out and hold the complete polyline
     LaunchedEffect(key1 = LocationService.finishedRun.value) {
         if (LocationService.finishedRun.value && locations.isNotEmpty()) {
-
             val finalBounds = finishedRunBounds(locations)
             val finalCameraPosition =
                 CameraUpdateFactory.newLatLngBounds(finalBounds, 24)
@@ -36,7 +39,18 @@ fun GoogleMapView(isFirstUpdate: Boolean, updateFirstLocation: (Boolean) -> Unit
             cameraPositionState.animate(finalCameraPosition)
         }
     }
+//    Checks if the camera state changes, then if the camera is not moving and the run is finished
+//    it takes a screenshot and saves it
+    LaunchedEffect(key1 = cameraPositionState.isMoving) {
+        if (!cameraPositionState.isMoving && LocationService.finishedRun.value) {
+//            TODO implement Room, save the image information to Room and navigate to ResultScreen
+//              and display image and information
 
+        }
+    }
+
+//      checks for updates of the position emitted by the Location Service, updates the list of locations
+//      creates a location based on the last position on the list and updates the camera to it
     LaunchedEffect(key1 = lastPosition) {
         if (lastPosition != null) {
             locations.add(lastPosition!!)
@@ -81,6 +95,7 @@ fun GoogleMapView(isFirstUpdate: Boolean, updateFirstLocation: (Boolean) -> Unit
                 width = 20F
             )
         }
+
     }
 }
 

@@ -36,58 +36,62 @@ fun RunScreen(navController: NavController) {
                     isFirstUpdate = isFirstUpdate.value,
                     updateFirstLocation = { isFirstUpdate.value = it })
             }
-            Box(
-                modifier = Modifier
-                    .padding(30.dp)
-                    .align(Alignment.BottomCenter),
-                contentAlignment = Alignment.TopCenter
-            ) {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(180.dp),
-                    elevation = 5.dp,
-                    shape = RoundedCornerShape(10.dp)
-                ) {
 
-                    Column(
+            if (!LocationService.finishedRun.value) {
+
+                Box(
+                    modifier = Modifier
+                        .padding(30.dp)
+                        .align(Alignment.BottomCenter),
+                    contentAlignment = Alignment.TopCenter
+                ) {
+                    Card(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 25.dp, bottom = 20.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.SpaceBetween
+                            .fillMaxWidth()
+                            .height(180.dp),
+                        elevation = 5.dp,
+                        shape = RoundedCornerShape(10.dp)
                     ) {
 
-                        Text(
-                            text = "00:00:00:00", fontSize = 45.sp
-                        )
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceEvenly
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(top = 25.dp, bottom = 20.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.SpaceBetween
                         ) {
-//                            user finishes route and wants to save the run
-                            Button(onClick = {
-//                          TODO after they finish the run, zoom out to show all the polyline
-                                sendCommandToService(
-                                    context,
-                                    LocationService.SERVICE_STOP
-                                )
-                                LocationService.finishedRun.value = true
-                                Log.d("RUNSCREEN", "RunScreen: finished run")
-                            }) {
-                                Text(text = "Terminar")
-                            }
-                            OutlinedButton(onClick = {
-//                            user cancels the run
-                                sendCommandToService(
-                                    context,
-                                    LocationService.SERVICE_STOP
-                                )
-//                          TODO think of what happens after they cancel the run
-                            }) {
-                                Text(text = "Cancelar")
-                            }
 
+                            Text(
+                                text = "00:00:00:00", fontSize = 45.sp
+                            )
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceEvenly
+                            ) {
+//                            user finishes route and wants to save the run
+                                Button(onClick = {
+                                    sendCommandToService(
+                                        context,
+                                        LocationService.SERVICE_STOP
+                                    )
+                                    LocationService.finishedRun.value = true
+                                    Log.d("RUNSCREEN", "RunScreen: finished run")
+
+                                }) {
+                                    Text(text = "Terminar")
+                                }
+                                OutlinedButton(onClick = {
+//                          user cancels the run
+                                    sendCommandToService(
+                                        context,
+                                        LocationService.SERVICE_STOP
+                                    )
+//                          TODO think of what happens after they cancel the run
+                                }) {
+                                    Text(text = "Cancelar")
+                                }
+
+                            }
                         }
                     }
                 }
