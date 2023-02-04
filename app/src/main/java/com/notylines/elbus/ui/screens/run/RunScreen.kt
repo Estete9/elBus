@@ -13,6 +13,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.notylines.elbus.db.RunDatabase
+import com.notylines.elbus.repository.RunRepository
 import com.notylines.elbus.services.LocationService
 import com.notylines.elbus.ui.screens.setup.sendCommandToService
 import com.notylines.elbus.utils.GoogleMapView
@@ -24,6 +26,9 @@ fun RunScreen(navController: NavController) {
     ) {
         val context = LocalContext.current
         val isFirstUpdate = remember { mutableStateOf(true) }
+
+        val repository = RunRepository(RunDatabase(context))
+
         Log.d("RUNSCREEN", "isFirstUpdate is ${isFirstUpdate.value}")
 
 
