@@ -34,7 +34,7 @@ fun GoogleMapView(isFirstUpdate: Boolean, updateFirstLocation: (Boolean) -> Unit
         if (LocationService.finishedRun.value && locations.isNotEmpty()) {
             val finalBounds = finishedRunBounds(locations)
             val finalCameraPosition =
-                CameraUpdateFactory.newLatLngBounds(finalBounds, 24)
+                CameraUpdateFactory.newLatLngBounds(finalBounds, 30)
 
             cameraPositionState.animate(finalCameraPosition)
         }

@@ -6,6 +6,8 @@ import android.content.pm.PackageManager
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.Bitmap
 import androidx.core.content.ContextCompat
+import com.notylines.elbus.db.Run
+import com.notylines.elbus.db.RunDatabase
 import java.io.File
 
 
@@ -48,5 +50,5 @@ fun File.writeBitmap(bmp: Bitmap, format: Bitmap.CompressFormat, quality: Int) {
     outputStream().use { out ->
         bmp.compress(format, quality, out)
         out.flush()
-        }
+    }
 }
