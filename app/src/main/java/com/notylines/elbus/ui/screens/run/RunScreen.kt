@@ -4,14 +4,13 @@ import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.notylines.elbus.db.RunDatabase
 import com.notylines.elbus.repository.RunRepository
@@ -20,12 +19,13 @@ import com.notylines.elbus.ui.screens.setup.sendCommandToService
 import com.notylines.elbus.utils.GoogleMapView
 
 @Composable
-fun RunScreen(navController: NavController) {
+fun RunScreen(navController: NavController, viewModel: RunViewModel = viewModel()) {
     Scaffold(
         modifier = Modifier.fillMaxSize()
     ) {
         val context = LocalContext.current
         val isFirstUpdate = remember { mutableStateOf(true) }
+        val runState by viewModel.runUiState.collectAsState()
 
         val repository = RunRepository(RunDatabase(context))
 
@@ -39,7 +39,10 @@ fun RunScreen(navController: NavController) {
             ) {
                 GoogleMapView(
                     isFirstUpdate = isFirstUpdate.value,
+                    updateLocations = { viewModel.updatePolyline() },
+                    locations = runState.polyline,
                     updateFirstLocation = { isFirstUpdate.value = it })
+
             }
 
             if (!LocationService.finishedRun.value) {
@@ -91,7 +94,7 @@ fun RunScreen(navController: NavController) {
                                         context,
                                         LocationService.SERVICE_STOP
                                     )
-//                          TODO think of what happens after they cancel the run
+//                           TODO think of what happens after they cancel the run
                                 }) {
                                     Text(text = "Cancelar")
                                 }

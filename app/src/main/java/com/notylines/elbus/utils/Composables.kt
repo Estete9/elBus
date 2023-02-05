@@ -1,5 +1,6 @@
 package com.notylines.elbus.utils
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -14,11 +15,13 @@ import com.notylines.elbus.services.LocationService
 
 
 @Composable
-fun GoogleMapView(isFirstUpdate: Boolean, updateFirstLocation: (Boolean) -> Unit) {
-
+fun GoogleMapView(
+    isFirstUpdate: Boolean,
+    updateLocations:() -> Unit,
+    locations: MutableList<LatLng>,
+    updateFirstLocation: (Boolean) -> Unit
+) {
     val lastPosition by LocationService.currentPosition.collectAsState()
-    val locations = remember { mutableListOf<LatLng>() }
-
 
     val cameraPositionState = rememberCameraPositionState {
         if (locations.isNotEmpty()) {
@@ -52,9 +55,9 @@ fun GoogleMapView(isFirstUpdate: Boolean, updateFirstLocation: (Boolean) -> Unit
 //      checks for updates of the position emitted by the Location Service, updates the list of locations
 //      creates a location based on the last position on the list and updates the camera to it
     LaunchedEffect(key1 = lastPosition) {
-        if (lastPosition != null) {
-            locations.add(lastPosition!!)
-        }
+
+            updateLocations()
+
         if (locations.isNotEmpty()) {
             val update = CameraUpdateFactory.newLatLngZoom(
                 LatLng(
