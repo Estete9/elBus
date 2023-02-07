@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [Run::class], version = 1)
 abstract class RunDatabase : RoomDatabase() {
-    abstract fun runDao(): RunDAO
+    abstract fun getRunDao(): RunDAO
 
     companion object {
         @Volatile

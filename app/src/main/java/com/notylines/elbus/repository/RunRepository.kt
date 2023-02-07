@@ -7,14 +7,14 @@ class RunRepository(
     private val db: RunDatabase
 ) {
     suspend fun deleteRun(run: Run) {
-        db.runDao().deleteRun(run)
+        db.getRunDao().deleteRun(run)
     }
 
     fun getSavedRuns(): List<Run> {
-        return db.runDao().getRuns()
+        return db.getRunDao().getRuns()
     }
 
     suspend fun addRun(run: Run) {
-        db.runDao().upsertRun(run)
+        db.getRunDao().upsertRun(run)
     }
 }

@@ -70,8 +70,6 @@ class LocationService() : Service() {
 // TODO register the location information
                 val pos = LatLng(location.latitude, location.longitude)
                 currentPosition.value = pos
-                Log.d("LOCATIONSERVICESTART", "path added $location")
-                Log.d("LOCATIONSERVICESTART", "path list ${currentPosition}")
             }
             .launchIn(serviceScope)
     }

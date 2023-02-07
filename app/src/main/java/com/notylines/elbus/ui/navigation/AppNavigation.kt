@@ -1,6 +1,7 @@
 package com.notylines.elbus.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -8,6 +9,7 @@ import com.notylines.elbus.ui.screens.savedResults.SavedResultsScreen
 import com.notylines.elbus.ui.screens.login.LoginScreen
 import com.notylines.elbus.ui.screens.result.ResultScreen
 import com.notylines.elbus.ui.screens.run.RunScreen
+import com.notylines.elbus.ui.screens.run.RunViewModel
 import com.notylines.elbus.ui.screens.setup.SetupScreen
 
 @Composable
@@ -15,7 +17,7 @@ fun AppNavigation() {
 
     val navController = rememberNavController()
 
-
+val viewModel: RunViewModel = viewModel()
     NavHost(navController = navController, startDestination = AppScreens.SetupScreen.name) {
 
         composable(route = AppScreens.LoginScreen.name) {
@@ -25,7 +27,7 @@ fun AppNavigation() {
             SetupScreen(navController = navController)
         }
         composable(route = AppScreens.RunScreen.name) {
-            RunScreen(navController = navController)
+            RunScreen(navController = navController, viewModel = viewModel)
         }
         composable(route = AppScreens.ResultScreen.name) {
             ResultScreen(navController = navController)

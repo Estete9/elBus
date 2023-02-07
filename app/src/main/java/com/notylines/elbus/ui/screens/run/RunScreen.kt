@@ -27,8 +27,6 @@ fun RunScreen(navController: NavController, viewModel: RunViewModel = viewModel(
         val isFirstUpdate = remember { mutableStateOf(true) }
         val runState by viewModel.runUiState.collectAsState()
 
-        val repository = RunRepository(RunDatabase(context))
-
         Log.d("RUNSCREEN", "isFirstUpdate is ${isFirstUpdate.value}")
 
 
