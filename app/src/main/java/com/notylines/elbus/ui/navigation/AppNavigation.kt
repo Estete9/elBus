@@ -33,7 +33,7 @@ val viewModel: RunViewModel = viewModel()
             ResultScreen(navController = navController)
         }
         composable(route = AppScreens.SavedResultsScreen.name) {
-            SavedResultsScreen(navController = navController)
+            SavedResultsScreen(navController = navController, viewModel = viewModel)
         }
     }
 }

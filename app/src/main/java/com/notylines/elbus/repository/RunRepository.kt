@@ -10,7 +10,7 @@ class RunRepository(
         db.getRunDao().deleteRun(run)
     }
 
-    fun getSavedRuns(): List<Run> {
+    suspend fun getSavedRuns(): List<Run> {
         return db.getRunDao().getRuns()
     }
 

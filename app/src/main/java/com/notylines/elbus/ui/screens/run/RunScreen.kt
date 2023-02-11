@@ -12,9 +12,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.notylines.elbus.db.RunDatabase
-import com.notylines.elbus.repository.RunRepository
+import com.notylines.elbus.db.Run
 import com.notylines.elbus.services.LocationService
+import com.notylines.elbus.ui.navigation.AppScreens
 import com.notylines.elbus.ui.screens.setup.sendCommandToService
 import com.notylines.elbus.utils.GoogleMapView
 
@@ -26,9 +26,6 @@ fun RunScreen(navController: NavController, viewModel: RunViewModel = viewModel(
         val context = LocalContext.current
         val isFirstUpdate = remember { mutableStateOf(true) }
         val runState by viewModel.runUiState.collectAsState()
-
-        Log.d("RUNSCREEN", "isFirstUpdate is ${isFirstUpdate.value}")
-
 
         Box(modifier = Modifier.fillMaxSize()) {
 
@@ -81,8 +78,15 @@ fun RunScreen(navController: NavController, viewModel: RunViewModel = viewModel(
                                         LocationService.SERVICE_STOP
                                     )
                                     LocationService.finishedRun.value = true
-                                    Log.d("RUNSCREEN", "RunScreen: finished run")
-
+                                    viewModel.saveRun(
+                                        Run(
+                                            duration = "1000",
+                                            maxSpeed = "100mk/h",
+                                            maxSpeedDuration = "5s",
+                                            numberMaxSpeed = 7
+                                        )
+                                    )
+                                    navController.navigate(AppScreens.SavedResultsScreen.name)
                                 }) {
                                     Text(text = "Terminar")
                                 }

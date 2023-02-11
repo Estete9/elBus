@@ -6,7 +6,7 @@ import androidx.room.*
 interface RunDAO {
 
     @Query("SELECT * FROM run_table")
-    fun getRuns(): List<Run>
+    suspend fun getRuns(): List<Run>
 
     @Delete
     suspend fun deleteRun(run: Run)

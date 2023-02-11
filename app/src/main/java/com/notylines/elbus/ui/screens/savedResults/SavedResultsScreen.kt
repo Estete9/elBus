@@ -10,32 +10,20 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.notylines.elbus.components.SavedRunCard
+import com.notylines.elbus.ui.screens.run.RunViewModel
 
 @Composable
-fun SavedResultsScreen(navController: NavController) {
+fun SavedResultsScreen(navController: NavController, viewModel: RunViewModel) {
     Scaffold(modifier = Modifier.fillMaxSize()) {
 
-        val runs = listOf<String>(
-            "run 1",
-            "run 2",
-            "run 3",
-            "run 4",
-            "run 5",
-            "run 6",
-            "run 7",
-            "run 8",
-            "run 9",
-            "run 10",
-            "run 11",
-            "run 12",
-            "run 13",
-            "run 14"
-        )
+        viewModel.getAllRuns()
+        val runs = viewModel.savedRunsState.collectAsState()
         Column {
 
             Text(
@@ -50,7 +38,7 @@ fun SavedResultsScreen(navController: NavController) {
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                items(runs) { run ->
+                items(runs.value) { run ->
                     SavedRunCard()
                 }
             }
