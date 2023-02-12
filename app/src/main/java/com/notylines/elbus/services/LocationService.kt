@@ -67,7 +67,7 @@ class LocationService() : Service() {
         locationClient.getLocationUpdates()
             .catch { e -> e.printStackTrace() }
             .onEach { location ->
-// TODO register the location information
+//  TODO register the location information
                 val pos = LatLng(location.latitude, location.longitude)
                 currentPosition.value = pos
             }
