@@ -28,7 +28,6 @@ fun RunScreen(navController: NavController, viewModel: RunViewModel = viewModel(
         val runState by viewModel.runUiState.collectAsState()
 
         Box(modifier = Modifier.fillMaxSize()) {
-
             Box(
                 modifier = Modifier, contentAlignment = Alignment.Center
             ) {
@@ -80,7 +79,7 @@ fun RunScreen(navController: NavController, viewModel: RunViewModel = viewModel(
                                     LocationService.finishedRun.value = true
                                     viewModel.saveRun(
                                         Run(
-                                            duration = "1000",
+                                            duration = "10",
                                             maxSpeed = "100mk/h",
                                             maxSpeedDuration = "5s",
                                             numberMaxSpeed = 7

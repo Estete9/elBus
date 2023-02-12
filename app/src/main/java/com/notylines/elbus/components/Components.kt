@@ -24,6 +24,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.notylines.elbus.R
+import com.notylines.elbus.db.Run
 
 @Composable
 fun CustomTextField(
@@ -76,9 +77,9 @@ fun CustomTextField(
     )
 }
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun SavedRunCard() {
+fun SavedRunCard(run: Run) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -130,7 +131,7 @@ fun SavedRunCard() {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                         append("Duracion: ")
                     }
-                    append("28 mins.")
+                    append("${run.duration} mins.")
                 })
             }
         }
