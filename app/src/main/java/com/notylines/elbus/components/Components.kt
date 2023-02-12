@@ -77,7 +77,6 @@ fun CustomTextField(
     )
 }
 
-//@Preview(showBackground = true)
 @Composable
 fun SavedRunCard(run: Run) {
     Card(

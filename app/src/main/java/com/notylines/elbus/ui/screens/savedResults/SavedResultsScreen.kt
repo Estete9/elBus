@@ -28,8 +28,20 @@ import com.notylines.elbus.ui.screens.run.RunViewModel
 fun SavedResultsScreen(navController: NavController, viewModel: RunViewModel) {
     Scaffold(modifier = Modifier.fillMaxSize()) {
 
-        viewModel.getAllRuns()
-        val runs = viewModel.savedRunsState.collectAsState().value
+        val isLoading = remember { mutableStateOf(viewModel.isLoading.value) }
+        Log.d(
+            "GETALLRUNS",
+            "SavedResultsScreen: isloading ${isLoading.value}"
+        )
+        LaunchedEffect(key1 = viewModel.updatingPolyline.value) {
+            Log.d(
+                "GETALLRUNS",
+                "SavedResultsScreen: updatingpolyline changed and get all runs running"
+            )
+            if (!viewModel.updatingPolyline.value!!) viewModel.getAllRuns()
+        }
+
+        val runs = viewModel.savedRunsState
 
         Column {
 
@@ -45,10 +57,11 @@ fun SavedResultsScreen(navController: NavController, viewModel: RunViewModel) {
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                items(runs) { run ->
+                items(runs, { runList: Run -> runList.uid!! }) { run ->
                     val dismissState = rememberDismissState()
                     if (dismissState.isDismissed(DismissDirection.EndToStart)) {
                         viewModel.deleteRun(run)
+                        viewModel.removeFromList(run)
                     }
                     SwipeToDismiss(
                         state = dismissState,
@@ -90,4 +103,6 @@ fun SavedResultsScreen(navController: NavController, viewModel: RunViewModel) {
             }
         }
     }
+
+
 }
