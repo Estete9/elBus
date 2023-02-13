@@ -4,7 +4,9 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.graphics.Bitmap
 import androidx.core.content.ContextCompat
+import java.io.File
 
 
 fun checkPermissions(
@@ -40,4 +42,11 @@ fun Context.hasLocationPermissions(): Boolean {
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
+}
+
+fun File.writeBitmap(bmp: Bitmap, format: Bitmap.CompressFormat, quality: Int) {
+    outputStream().use { out ->
+        bmp.compress(format, quality, out)
+        out.flush()
+    }
 }
